@@ -1,0 +1,34 @@
+From MVP to Monetization in 3 Hours:
+How I Saved a Deal With a Multi-Step Zap
+THE CHALLENGE
+
+We had built an internal system to automate verified contact creation in Wercflow. It worked. But it wasn’t exposed to users...yet...
+
+Then a major client came to us with an urgent ask:
+They were prepping for a high-profile IRL event and wanted to instantly add business cards and email threads to their Wercflow network. Manual entry was a non-starter. They wanted a “just forward it and forget it” solution.
+
+We had the backend logic. We just needed to plug it into the wild.
+Company:
+Wercflow | IPG Agency
+My Role:
+Head of Product
+Year:
+2024
+Techstack
+Gmail | Zapier | Postgres | Slack
+The Solution
+We launched a real-time email parser that let users forward business cards, intros, or contact dumps and automatically turned them into clean records in Wercflow.
+1. Accept Forwarded Emails via Unique Inbox
+Each account got a dedicated email address (contacts@wercflow.com). Any email forwarded there triggered a Zapier flow that identified the sender and extracted the payload.
+3. Created & Linked the Right Entities in Postgres
+From there, we:
+Matched to existing users or created new ones
+Created "virtual" callsheets because contacts table had a callsheet/project dependency
+Linked both sides in user_contacts, user_contact_callsheets
+Handled success/error states automatically
+2. Used OpenAI to Parse & Normalize Contact Info
+Instead of brittle regex, we used GPT to extract names, roles, phone numbers, links (IG, LinkedIn, IMDB, etc.), and classify them.
+Even messy forwards like “Hey—looping in Chris who worked on X” got structured cleanly.
+4. Delivered Confirmation Instantly
+Once processed, users got a Slack alert or email with the contact card and a link to their updated Wercflow.
+

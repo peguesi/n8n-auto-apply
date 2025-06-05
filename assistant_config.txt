@@ -1,0 +1,4 @@
+ASSISTANT_ID=asst_3EvbOH9RD9zNQ2k8e79BpzF4
+MODEL=o3-mini
+API_VERSION=2024-12-01-preview
+ENDPOINT=https://wercopenai.openai.azure.com/

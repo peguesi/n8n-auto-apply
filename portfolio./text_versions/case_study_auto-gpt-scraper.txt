@@ -1,0 +1,77 @@
+Auto-GPT and The Self-Reinforcing Scraper
+How I Automated Dynamic Web Data Collection with AI and Cloud Orchestration
+THE CHALLENGE
+In media production, data about projects, companies, and people is everywhere—but fragmented across hundreds of inconsistent websites.
+
+For Wercflow, we saw a huge opportunity:
+If we could automate the collection of this public data, users would land on the platform with pre-populated profiles and a rich, interconnected database—boosting immediate value, engagement, and retention.
+
+But traditional scraping wouldn’t cut it. Websites had dynamic content, inconsistent structures, and constant changes. We needed a system that could adapt, self-correct, and run continuously—without human intervention.
+Company:
+Wercflow
+My Role:
+Product Developer
+Year:
+2024
+Techstack
+Auto-GPT | GPT-4o | Playwright | Selenium (Chromium Headless) | Python | Azure Functions | Docker
+The Solution — AI-Powered, Mission-Driven Scraping Orchestrated by Auto-GPT
+I designed a fully autonomous,
+AI-orchestrated scraping pipeline
+where:
+Auto-GPT
+acted as the
+mission controller
+, dynamically handling scraping tasks.
+GPT-4o
+provided intelligence to understand and reverse-engineer website structures.
+The system learned, adapted, and improved—turning messy web data into clean, structured datasets ready for import.
+1️⃣ Mission Control with Auto-GPT (Dockerized Environment)
+Each scraping task started with Auto-GPT receiving a target
+URL
+and a defined
+data schema
+(e.g., company names, project titles, roles).
+Auto-GPT broke down the mission:
+“Navigate → Analyze → Extract → Validate → Prepare Data.”
+It orchestrated all components from within a
+Docker container
+, allowing persistent, stateful execution.
+2️⃣ Dynamic Web Interaction
+Using
+Playwright
+and
+Selenium
+(headless Chromium), Auto-GPT:
+Navigated complex websites.
+Handled user interactions like clicks, scrolls, and pagination.
+Captured full
+HTML snapshots
+and
+screenshots
+for AI analysis.
+3️⃣ AI-Driven Structure Analysis & Adaptation
+Auto-GPT sent captured data to
+GPT-4o
+, which:
+Reverse-engineered the DOM structure based on visual and HTML data.
+Generated dynamic scraping schemas tailored to each unique site.
+Suggested alternative strategies when initial attempts failed.
+This created a
+self-correcting loop
+—Auto-GPT iterated until it successfully extracted clean data.
+4️⃣ Post-Processing & Validation (Azure Functions)
+Once data was scraped:
+Auto-GPT triggered
+Azure Functions
+to handle:
+Data cleaning.
+Schema validation.
+Formatting for Wercflow’s import pipeline.
+This separation ensured lightweight, stateless tasks ran efficiently in the cloud, while heavier scraping logic stayed within Docker.
+📊 The Impact
+This wasn’t just automation—it was a smart, AI-driven system.
+By leveraging Auto-GPT’s autonomous task management and GPT-4o’s reasoning capabilities, the scraper evolved beyond brittle scripts into a
+self-reinforcing data engine
+—capable of adapting to the unpredictable nature of the web.
+The hybrid deployment—heavy processes in Docker, lightweight tasks in Azure Functions—ensured both power and efficiency.

@@ -1,0 +1,202 @@
+Training GPT-4o with 1M Synthetic Data
+Building and Deploying an AI-Powered Search System
+THE CHALLENGE: We set out to build an AI-powered chat interface that could turn natural language queries (NLQ) into precise SQL queries—enabling users to search projects, people, and companies effortlessly.
+
+But unlike big tech, we didn’t have access to massive datasets of labeled NLQ-to-SQL pairs. What we did have was a solid understanding of how the media production industry is structured—and a small, validated subset of data.
+Company:
+Wercflow
+My Role:
+Head of Product
+Year:
+2024
+Techstack
+Python | GPT-4o | Azure Function App | Azure SQL | Custom Validation Scripts | Parameterized Data Generation
+THE SOLUTION
+Synthetic Data + Smart Deployment
+I designed a system to generate the data we needed—
+at scale and with variety
+.
+🔹 1. Building the Foundation: Templates & Parameters
+I started by crafting
+88 core NLQ-to-SQL templates
+, each based on real-world user queries.
+85
+:
+{
+"id"
+:
+85
+,
+"nlq"
+:
+"Who can direct, shoot, and edit fashion spots?"
+,
+"sql"
+:
+"SELECT DISTINCT u.id AS user_id, u.first_name + ' ' + u.last_name AS user_name FROM dbo.Users u WHERE EXISTS (SELECT 1 FROM dbo.Project_Users pu1 JOIN dbo.Roles r1 ON pu1.role_id = r1.id WHERE pu1.user_id = u.id AND LOWER(r1.name) = 'director') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu2 JOIN dbo.Roles r2 ON pu2.role_id = r2.id WHERE pu2.user_id = u.id AND LOWER(r2.name) = 'director of photography') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu3 JOIN dbo.Roles r3 ON pu3.role_id = r3.id WHERE pu3.user_id = u.id AND LOWER(r3.name) = 'editor') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu4 JOIN dbo.Projects p ON pu4.project_id = p.id JOIN dbo.Project_Tags pt ON p.id = pt.project_id JOIN dbo.Tags t ON pt.tag_id = t.id WHERE pu4.user_id = u.id AND LOWER(t.name) = 'fashion');"
+,
+"template_id"
+:
+185
+,
+"nlq_template"
+:
+"Who can {action_1}, {action_2}, and {action_3} {content_domain} spots?"
+,
+"sql_template"
+:
+"SELECT DISTINCT u.id AS user_id, u.first_name + ' ' + u.last_name AS user_name FROM dbo.Users u WHERE EXISTS (SELECT 1 FROM dbo.Project_Users pu1 JOIN dbo.Roles r1 ON pu1.role_id = r1.id WHERE pu1.user_id = u.id AND LOWER(r1.name) = '{db_role_1}') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu2 JOIN dbo.Roles r2 ON pu2.role_id = r2.id WHERE pu2.user_id = u.id AND LOWER(r2.name) = '{db_role_2}') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu3 JOIN dbo.Roles r3 ON pu3.role_id = r3.id WHERE pu3.user_id = u.id AND LOWER(r3.name) = '{db_role_3}') AND EXISTS (SELECT 1 FROM dbo.Project_Users pu4 JOIN dbo.Projects p ON pu4.project_id = p.id JOIN dbo.Project_Tags pt ON p.id = pt.project_id JOIN dbo.Tags t ON pt.tag_id = t.id WHERE pu4.user_id = u.id AND LOWER(t.name) = '{content_domain}');"
+,
+"parameter_mapping"
+:
+{
+"action_1"
+:
+"direct"
+,
+"action_2"
+:
+"shoot"
+,
+"action_3"
+:
+"edit"
+,
+"db_role_1"
+:
+"director"
+,
+"db_role_2"
+:
+"director of photography"
+,
+"db_role_3"
+:
+"editor"
+,
+"content_domain"
+:
+"fashion"
+}
+,
+"tags"
+:
+[
+{
+"type"
+:
+"role_search"
+,
+"subtype"
+:
+"multi_role"
+}
+,
+{
+"type"
+:
+"role_filter"
+,
+"subtype"
+:
+"director"
+}
+,
+{
+"type"
+:
+"role_filter"
+,
+"subtype"
+:
+"director of photography"
+}
+,
+{
+"type"
+:
+"role_filter"
+,
+"subtype"
+:
+"editor"
+}
+,
+{
+"type"
+:
+"content_filter"
+,
+"subtype"
+:
+"fashion"
+}
+]
+🔹 2. Scaling with Automation
+Each template had 1 - 5 parameters. We had a total of 562 unique values for those paramteres and we generated
+5+ natural language variations
+to mimic how users actually phrase queries.
+This wasn’t manual — I built custom
+Python scripts
+to automate the entire process:
+Natural Language Template
+Parameter Values
+Natural Language Variations
+Who can {action_1}, {action_2}, and {action_3} {content_domain} spots?
+direct, edit, shoot, fashion
+Which director also edits and shoots fashion campaigns?
+What {company_type}s have expertise in {content_domain}?
+production companies, music videos
+I need some prod co that product music vids!
+def
+generate_nlq_variations
+(
+template
+,
+parameters
+):
+# Logic to inject parameters and create variations
+return
+expanded_pairs
+🔹 3. Training & Deployment
+With 1M high-quality NLQ-SQL pairs generated, I fine-tuned
+GPT-4o
+to handle complex, domain-specific search queries. But training was just the start—I designed the deployment for
+real-world use
+, not just a sandbox.
+Deployed the fine-tuned model via
+Azure Foundry
+for scalable, low-latency cloud inference.
+Integrated
+Azure Functions
+for post-processing—handling SQL correction, syntax validation, and schema alignment in real-time.
+Implemented
+Redis caching
+to optimize recurring queries and reduce load.
+This architecture ensured that AI-driven query handling was not only smart—but also
+fast, reliable, and production-ready
+.
+🔹 4. Ensuring Reliability with Validation
+AI without guardrails breaks things. To ensure trustworthy outputs:
+Built a
+robust validation pipeline
+to automatically detect and fix:
+SQL syntax errors
+Schema mismatches
+Missing conditions or incorrect joins
+Set up
+monitoring
+to track query success rates, error frequencies, and system performance.
+Established a
+feedback loop
+where failed or flagged queries were logged for continuous dataset improvement and future fine-tuning cycles.
+Leveraged Redis to cache validated queries, further enhancing response times for repeat patterns.
+This system wasn’t static—it
+learned and improved
+with every execution.
+📊  THE IMPACT
+Results by the Numbers
+In just weeks, I transformed limited data and resources into a fully deployed, AI-powered search solution—
+fast, reliable, and scalable
+without the need for a large team or big-tech infrastructure.
+

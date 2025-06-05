@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+.venv/
+venv/
+
+# n8n
+n8n_data/
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Node (if you're mixing JS)
+node_modules/
+
+data/*
+!data/resumes/
+!data/resumes/html/.venv/
+n8n_data/
+data/*
+!data/resumes/
+!data/resumes/html/
+google_sheet_credentials.json

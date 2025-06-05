@@ -1,0 +1,39 @@
+B2C → B2B2C:
+Launching Embedded Commerce Widgets for Beauty Brands
+THE CHALLENGE:
+
+We started Glossom as a standalone UGC platform for beauty creators. It gained traction—500K+ downloads, no marketing spend—but we hit a ceiling. Instagram was rolling out shoppable posts and burying smaller platforms. Competing as a niche social network wasn’t sustainable.
+
+We needed a pivot. One that leveraged our strengths (creator content, beauty niche) but avoided the uphill battle of fighting Instagram at its own game.
+Company:
+Glossom
+My Role:
+Head of Product
+Year:
+2018
+Techstack
+Swift | PostgreSQL | JavaScript | AWS S3 | Google Analytics
+The Solution
+We transformed Glossom from a standalone UGC app into an embeddable content engine—powering shoppable pages for beauty brands using creator videos.
+Instead of fighting for attention in a crowded social feed, we brought creator content directly to where purchases were happening—brand websites.
+1. Flip the Funnel: From Platform to Plugin
+Instead of fighting for daily active users, we started embedding Glossom
+into
+the places shoppers were already active—brand websites. We built a lightweight widget that let L’Oréal and other partners feature Glossom content directly on product pages.
+Shoppers didn’t need to download an app or follow anyone—they just scrolled, watched, clicked, and bought.
+3. Optimize the Loop With Data
+We tracked watch time, scroll depth, clickthroughs, and conversions across pages. Top-performing creators were prioritized. New content was slotted automatically into relevant product categories.
+This turned into a self-optimizing content loop: more content → better performance → more creator exposure → more brand adoption.
+2. Seed Content That Converts
+We strategically seeded new beauty products to creators in the Glossom network. Once a video was made, it was uploaded to the brand’s site via the widget. The content was contextual, high-quality, and native-looking—not ads.
+We weren’t just showing products. We were showing products in action—on real people, in real life.
+4. Monetize Through Licensing, Not Ads
+Instead of chasing CPMs or influencer deals, we structured a licensing model. Brands like L’Oréal paid for the ability to feature verified Glossom content on their site. It turned into a 7-figure IP sale and a scalable B2B2C model without a sales team.
+The Impact
+By shifting from audience growth to conversion impact, we turned Glossom into a revenue driver—proving content doesn’t need to go viral to sell.
+Increased Conversion Rate
+3.8% powered by Glossom
+Average Time on Page
+21% Increase in Month 1
+IP Acquisition
+7-figure deal with major cosmetic brand

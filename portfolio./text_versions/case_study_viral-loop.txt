@@ -1,0 +1,24 @@
+How I Engineered a Viral Loop with $0
+A Simple Verification Feature Scaled Wercflow to 20k Users
+THE CHALLENGE: $0 marketing budget, so we turned the product into a growth engine. Our “Verify Projects” feature used auto-imported callsheet data to trigger seamless invites through a clever “Unverified Project” prompt.
+Company:
+Wercflow
+My Role:
+Head of Product
+Year:
+2023
+Techstack
+Zapier | Postgres | Sendgrid | Python  | AWS
+The Solution — Product-Led Viral Loop:
+We turned a basic need—
+project verification
+—into a seamless growth engine. When users saw an
+Unverified Project
+badge, clicking “Verify” sent an automated email to their teammates, framed as a simple verification request. But behind the scenes, it acted as a smooth
+platform invite
+. Once their teammate logged in, both users’ projects were verified—creating a natural, self-reinforcing loop that drove continuous user growth.
+📊 The Impact — Growth Engine by Design
+By embedding growth directly into the user workflow, the
+“Verify Project”
+feature transformed a simple action into a seamless viral loop—without feeling like a referral gimmick.
+

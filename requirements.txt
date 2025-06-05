@@ -1,0 +1,10 @@
+fastapi
+playwright
+openai
+tqdm
+httpx
+tokenizers
+pandas
+gspread
+oauth2client
+pytz

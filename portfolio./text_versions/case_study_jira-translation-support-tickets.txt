@@ -1,0 +1,34 @@
+From Copy-Paste to Scalable Language Infrastructure
+Jira Service Management, The Polyglot
+THE CHALLENGE:  It started with a ticket in Japanese. Our support team couldn’t read it, and Jira didn’t offer a native solution. So, we copied and pasted the content into Google Translate or DeepL, replied, translated our response back, and hoped for the best. This manual process was inefficient and error-prone.
+
+We realized that if we were facing this issue, countless other support teams were too. The problem wasn’t just about translation—it was about integrating language support seamlessly into existing workflows.
+Company:
+resolution - Atlassian
+My Role:
+Product Manager
+Techstack
+Atlassian Forge | Google Cloud Translate API | Javascript |
+The Insight
+Translation in customer service isn’t merely a language issue; it’s a workflow challenge. Agents need to:
+Read incoming tickets
+Write replies
+Use internal notes
+Escalate issues
+—all without language barriers disrupting their process.
+We aimed to eliminate the need for external translation tools by embedding translation directly into the Jira workflow.
+The Solution
+We developed a translation system within Jira Service Management that operates seamlessly:
+Automatic Translation
+: Incoming tickets are auto-translated into the agent’s language.
+Bidirectional Communication
+: Agent replies are translated back into the customer’s language.
+Context-Aware Handling
+: Differentiates between internal comments and public replies.
+Preserved Formatting
+: Maintains the original structure, including code blocks and field content.
+Configurable Settings
+: Agents can set preferred languages, with fallback options for unsupported languages.
+This system transformed a manual workaround into a scalable, integrated translation layer designed specifically for support teams.
+THE IMPACT
+By treating translation as an integral part of the infrastructure rather than an add-on feature, we created a solution that agents could use without altering their existing workflows. This approach ensured that language barriers no longer impeded efficient customer support.

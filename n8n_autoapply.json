@@ -1,0 +1,626 @@
+{
+  "name": "scrape_linkedin",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const jobsRaw = $json[\"Job Title(s)\"] || \"\";\nconst locationsRaw = $json[\"Location(s)\"] || \"\";\nconst timeOption = $json[\"Time\"] || \"No limit\";\n\nconst jobs = jobsRaw\n  .split(\",\")\n  .map(j => j.trim())\n  .filter(j => j.length > 0);\n\nconst locations = locationsRaw\n  .split(\",\")\n  .map(l => l.trim())\n  .filter(l => l.length > 0);\n\nconst timeMap = {\n  \"1 hour\": \"r3600\",\n  \"3 hours\": \"r10800\",\n  \"24 hours\": \"r86400\",\n  \"3 days\": \"r259200\",\n  \"5 days\": \"r432000\",\n  \"7 days\": \"r604800\",\n  \"30 days\": \"r2592000\",\n  \"No limit\": null\n};\n\nconst timeFilter = timeMap[timeOption];\nconst base = \"https://www.linkedin.com/jobs/search/\";\n\nconst urls = [];\n\nfor (const job of jobs) {\n  for (const location of locations) {\n    const params = [\n      `keywords=${encodeURIComponent(job)}`,\n      `location=${encodeURIComponent(location)}`,\n      timeFilter ? `f_TPR=${timeFilter}` : null\n    ].filter(Boolean).join(\"&\");\n\n    urls.push({\n      json: {\n        job,\n        location,\n        time: timeOption,\n        search_url: `${base}?${params}`\n      }\n    });\n  }\n}\n\nreturn urls;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        -180
+      ],
+      "id": "3752fde9-a577-4704-94d2-2de3dccc301d",
+      "name": "Build LinkedIn URLs"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/scrape/linkedin",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ urls: [ $json.search_url ] }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -180
+      ],
+      "id": "2e21ca33-7b59-4eec-a29b-5045c595842a",
+      "name": "LinkedIn Scraper1"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/linkedin/results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1240,
+        -80
+      ],
+      "id": "3f8d986d-3309-4741-8baf-cec09271832f",
+      "name": "Retrieve Scrape Results1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/content/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"job_data\": {{ JSON.stringify($json.job) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        -80
+      ],
+      "id": "40e0fcb0-63b3-432b-9cfa-3460448c3e84",
+      "name": "Generate Docs"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1x_moWPvk4x-MyRljTcOKUkPGVH8K-p9tciInFObsZH0",
+          "mode": "list",
+          "cachedResultName": "jobs_tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1x_moWPvk4x-MyRljTcOKUkPGVH8K-p9tciInFObsZH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1x_moWPvk4x-MyRljTcOKUkPGVH8K-p9tciInFObsZH0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Job ID": "={{ $json.input.id }}",
+            "Title": "={{ $json.input.title }}",
+            "Company": "={{ $json.input.company }}",
+            "Location": "={{ $json.input.location }}",
+            "Scraped Date": "={{ $json.input.scraped_at }}",
+            "Score": "={{ $json.input.fit_analysis.overall_score }}",
+            "Interview Probability": "={{ $json.input.fit_analysis.interview_probability }}",
+            "Recommendation": "={{ $json.input.fit_analysis.recommendation }}",
+            "Status": "Ready",
+            "Job URL": "={{ $json.input.url }}",
+            "Resume Link": "={{ $json.documents.resume }}",
+            "Key Requirements": "={{ $json.input.fit_analysis.strategic_notes }}",
+            "Posted Date": "={{ $json.input.posted_time }}",
+            "Cover Letter Link": "={{ $json.documents.cover_letter }}",
+            "Why Good Fit": "={{ $json.input.fit_analysis.content_strategy.profile_positioning }}"
+          },
+          "matchingColumns": [
+            "Job ID"
+          ],
+          "schema": [
+            {
+              "id": "Job ID",
+              "displayName": "Job ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posted Date",
+              "displayName": "Posted Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scraped Date",
+              "displayName": "Scraped Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interview Probability",
+              "displayName": "Interview Probability",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Recommendation",
+              "displayName": "Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resume Link",
+              "displayName": "Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cover Letter Link",
+              "displayName": "Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job URL",
+              "displayName": "Job URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Key Requirements",
+              "displayName": "Key Requirements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Why Good Fit",
+              "displayName": "Why Good Fit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Application Deadline",
+              "displayName": "Application Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2120,
+        -80
+      ],
+      "id": "34fe31a7-000d-43e5-af32-88ba319ca9d6",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleApi": {
+          "id": "U2pgkUwtUFwU86C4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/agent/enhanced-process-single",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        -80
+      ],
+      "id": "f2accaec-8515-4284-a6eb-11b16a75153d",
+      "name": "Single Job Analysis"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        -80
+      ],
+      "id": "90d49431-dbd4-4c1b-adb1-171385f2bccb",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Job Title(s)",
+              "value": "Senior Product Manager"
+            },
+            {
+              "name": "Location(s)",
+              "value": "New York"
+            },
+            {
+              "name": "Time",
+              "value": "1 hour"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -80
+      ],
+      "id": "a54c63fd-af07-443d-bcf2-6bcbb4e1bda4",
+      "name": "1 hour: NYC"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Job Title(s)",
+              "value": "Senior Product Manager"
+            },
+            {
+              "name": "Location(s)",
+              "value": "Germany, EMEA"
+            },
+            {
+              "name": "Time",
+              "value": "1 hour"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -280
+      ],
+      "id": "343ccf20-f903-4a67-ad11-3db56e4fef63",
+      "name": "1 hour: EMEA"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/30 5-19 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        -280
+      ],
+      "id": "1c765acc-54bf-435a-9e65-9884c6dd7158",
+      "name": "Weekdays +/- 2hr (EMEA)"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7-21 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        -80
+      ],
+      "id": "af303445-5ed0-4a58-8e27-dc52829a1e11",
+      "name": "Weekdays +/- 2hr (NYC)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dba63e62-6afa-4e11-b942-a2aec6583096",
+              "leftValue": "={{ \n  $json.level === 'error' &&\n  (\n    $json.message.includes(\"Redirected to login\") ||\n    $json.message.includes(\"captcha\") ||\n    $json.message.includes(\"challenge\") ||\n    $json.message.includes(\"cookie\") ||\n    $json.message.toLowerCase().includes(\"unauthorized\")\n  )\n}}",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1020,
+        -180
+      ],
+      "id": "0fc966ae-4d6b-4c67-b581-cf566345b9d7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "975271656",
+        "text": "ERROR THAT REQUIRES YOUR INTERVENTION",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1240,
+        -280
+      ],
+      "id": "b0f90c54-334a-4b21-a82b-1ee9bb44b29b",
+      "name": "Telegram",
+      "webhookId": "46352bf3-d87e-4c1a-988f-619c966be769",
+      "credentials": {
+        "telegramApi": {
+          "id": "S0SiHAzrAnFK7w0D",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Build LinkedIn URLs": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Scraper1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Scraper1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Scrape Results1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Docs": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        []
+      ]
+    },
+    "Single Job Analysis": {
+      "main": [
+        [
+          {
+            "node": "Generate Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Single Job Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 hour: NYC": {
+      "main": [
+        [
+          {
+            "node": "Build LinkedIn URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 hour: EMEA": {
+      "main": [
+        [
+          {
+            "node": "Build LinkedIn URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekdays +/- 2hr (EMEA)": {
+      "main": [
+        [
+          {
+            "node": "1 hour: EMEA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekdays +/- 2hr (NYC)": {
+      "main": [
+        [
+          {
+            "node": "1 hour: NYC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Retrieve Scrape Results1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "85a05ccb-6909-4594-af20-ef9c16218461",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2bf5422bbf3c4b99deeb4a92f67e66994c4a5a33782bab1e8708d6e8a2ab6ea2"
+  },
+  "id": "dXcXRo9Qpkl1XW4e",
+  "tags": [
+    {
+      "name": "auto-apply",
+      "id": "FPUdINpOWWPI6Aci",
+      "createdAt": "2025-06-01T07:08:58.328Z",
+      "updatedAt": "2025-06-01T07:08:58.328Z"
+    }
+  ]
+}

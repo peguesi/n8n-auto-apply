@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" data-annotated="true" data-version="2.0">
+<head>
+<title>Senior Product Manager</title>
+<meta charset="utf-8">
+<style>
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family:Lato:wght@400;700&display=swap');
+
+/* Reset and base styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #A0A0A0;
+    width: 794px; /* A4 width at 96dpi */
+    margin: 0 auto;
+}
+
+h1, h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+}
+
+/* Page container with flexbox layout */
+.page {
+    width: 794px;
+    min-height: 1123px; /* A4 height */
+    display: flex;
+    page-break-after: always;
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 70%, #1e3a0f 70%, #1e3a0f 100%);
+}
+
+.page:last-child {
+    page-break-after: auto;
+}
+
+/* Main content area - uses normal document flow */
+.main-content {
+    flex: 1;
+    max-width: 460px;
+    padding: 60px 20px 60px 50px;
+    color: #0d111a;
+}
+
+/* Header */
+.header {
+    margin-bottom: 25px;
+}
+
+.name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.role-title {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Sections - normal flow */
+.section {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    font-family: 'Oswald', sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: #0d111a;
+    margin-bottom: 12px;
+}
+
+.profile-text {
+    font-size: 13px;
+    line-height: 18px;
+    margin-bottom: 18px;
+}
+
+/* Employment - normal flow */
+.job {
+    margin-bottom: 18px;
+}
+
+.job-title-line {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.job-dates {
+    font-size: 8px;
+    color: #949ba6;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.bullet-point {
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 4px;
+    padding-left: 12px;
+    position: relative;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.bullet-point:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #0d111a;
+}
+
+/* Sidebar - fixed width, normal height flow */
+.sidebar {
+    width: 210px;
+    background-color: #1e3a0f;
+    color: #ffffff;
+    padding: 140px 25px 30px 25px;
+    flex-shrink: 0;
+}
+
+.sidebar-section {
+    margin-bottom: 25px;
+}
+
+.sidebar-header {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.contact-info {
+    font-size: 11px;
+    line-height: 18px;
+    margin-bottom: 18px;
+}
+
+.contact-link {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.sidebar-links {
+    font-size: 11px;
+    line-height: 16px;
+}
+
+.sidebar-links a {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.skills-section {
+    margin-bottom: 20px;
+}
+
+.skill-item {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+
+.languages {
+    font-size: 11px;
+    line-height: 16px;
+}
+
+.language-item {
+    margin-bottom: 10px;
+}
+
+/* Education */
+.education {
+    margin-top: 25px;
+}
+
+.degree {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.education-dates {
+    font-size: 8px;
+    color: #949ba6;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.education-details {
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+/* Page breaks for content flow */
+.page-break {
+    page-break-before: always;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: white;
+        width: 210mm;
+    }
+    
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        page-break-after: always;
+        margin: 0;
+    }
+    
+    .page:last-child {
+        page-break-after: auto;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Page 1 -->
+    <div class="page page-1">
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="name">Isaiah Pegues</h1>
+                <div class="role-title">DIRECTOR OF PRODUCT MANAGEMENT</div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="section">
+                <h2 class="section-header">Profile</h2>
+                <div class="profile-text">
+                    Dynamic product leader with 8+ years of experience in mobile applications and SaaS solutions. I have successfully scaled Wercflow to 20k users and 2k B2B clients, demonstrating strong market fit and user engagement. My expertise in user-centered design and product strategy has driven significant growth, including launching a mobile platform at Glossom that achieved over 500K downloads with no marketing spend. I thrive in cross-functional teams, leveraging agile methodologies to deliver impactful results.
+                </div>
+            </div>
+
+            <!-- Employment Section -->
+            <div class="section">
+                <h2 class="section-header">Employment History</h2>
+                
+                <!-- Wercflow -->
+                <div class="job" data-company="wercflow">
+                    <div class="job-title-line"><strong>Founder & Head of Product, Wercflow, New York | Berlin</strong></div>
+                    <div class="job-dates">JANUARY 2022 — JANUARY 2025</div>
+                    <div class="bullet-point" data-section="employment">Designed and launched AI-driven solutions automating media production workflows, enhancing efficiency in on-demand transit management.</div>
+                    <div class="bullet-point" data-section="employment">Scaled Wercflow to 20k users and 2k B2B clients, demonstrating strong market fit and user engagement through continuous feature iteration.</div>
+                    <div class="bullet-point" data-section="employment">Implemented automated onboarding and modular feature rollouts, boosting activation rates by 45% and improving user experience.</div>
+                    <div class="bullet-point" data-section="employment">Developed a product-led growth strategy that integrated user feedback into the product lifecycle, driving data-driven decision making.</div>
+                </div>
+
+                <!-- Atlassian -->
+                <div class="job" data-company="atlassian">
+                    <div class="job-title-line"><strong>Senior Product Manager, resolution - Atlassian, Berlin</strong></div>
+                    <div class="job-dates">OCTOBER 2019 — DECEMBER 2021</div>
+                    <div class="bullet-point" data-section="employment">Led product strategy across core authentication, provisioning, and security apps, serving 2.5M+ users within the Atlassian ecosystem.</div>
+                    <div class="bullet-point" data-section="employment">Shifted product focus to cloud-native, user-friendly marketplace solution, moving away from legacy enterprise tooling to scalable SaaS offerings—accelerating adoption and retention.</div>
+                    <div class="bullet-point" data-section="employment">Introduced AI-driven automation to simplify complex security workflows, reducing setup time and boosting customer satisfaction.</div>
+                    <div class="bullet-point" data-section="employment">Championed a data-driven roadmap, embedding KPI/OKR frameworks to align cross-functional teams around growth, usability, and cloud migration goals.</div>
+                </div>
+
+                <!-- Glossom -->
+                <div class="job" data-company="glossom">
+                    <div class="job-title-line"><strong>Founder & Head of Product, Glossom, Berlin</strong></div>
+                    <div class="job-dates">NOVEMBER 2017 — OCTOBER 2019</div>
+                    <div class="bullet-point" data-section="employment">Launched a mobile platform achieving over 500K downloads with $0 marketing spend, leveraging user-generated content to enhance engagement.</div>
+                    <div class="bullet-point" data-section="employment">Utilized user feedback and analytics to drive rapid product iterations, resulting in sustained user engagement and market traction.</div>
+                    <div class="bullet-point" data-section="employment">Transformed a strategic partnership into a 7-figure IP sale, enabling L’Oréal to integrate UGC into their website, boosting conversion rates.</div>
+                    <div class="bullet-point" data-section="employment">Implemented data-driven strategies to optimize user engagement and retention, aligning with mobile app best practices.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Details -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">Details</div>
+                <div class="contact-info">
+                    New York | Berlin<br>
+                    US: +1 917 609-4473<br>
+                    <a class="contact-link" data-type="phone" href="tel:+4915112205900">EU: +49 15112205900</a><br>
+                    <a class="contact-link" data-type="email" href="mailto:isaiah@pegues.io">isaiah@pegues.io</a>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">Links</div>
+                <div class="sidebar-links">
+                    <a class="contact-link" data-type="linkedin" href="https://linkedin.com/in/isaiahupegues">LinkedIn</a>
+                    <a class="contact-link" data-type="portfolio" data-tag="portfolio-link" href="https://isaiah.pegues.io">Portfolio / Case Studies</a>
+                    <a class="contact-link" data-type="github" href="https://github.com/peguesi">Github</a>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="sidebar-section skills-section">
+                <div class="sidebar-header">Skills</div>
+                <div class="skill-item">Product Strategy</div>
+                <div class="skill-item">Mobile App Development</div>
+                <div class="skill-item">User Experience Design</div>
+                <div class="skill-item">Agile Methodologies</div>
+                <div class="skill-item">Cross-Functional Leadership</div>
+                <div class="skill-item">Data-Driven Decision Making</div>
+                <div class="skill-item">SaaS Product Management</div>
+                <div class="skill-item">Cloud Infrastructure</div>
+                <div class="skill-item">Stakeholder Management</div>
+                <div class="skill-item">Market Analysis</div>
+                <div class="skill-item">Product Roadmapping & Execution</div>
+            </div>
+
+            <!-- Languages -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">Languages</div>
+                <div class="skill-item">English Native</div>
+                <div class="skill-item">German B1</div>
+                <div class="skill-item">Spanish A2</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page page-2">
+        <div class="main-content">
+            <!-- Continued Employment History -->
+            <div class="section">
+                <!-- 19th and Park -->
+                <div class="job" data-company="nineteenth_park">
+                    <div class="job-title-line"><strong>Product Manager, 19th & Park, New York</strong></div>
+                    <div class="job-dates">MARCH 2016 — AUGUST 2017</div>
+                    <div class="bullet-point" data-section="employment">Launched Treauu, a creative content and production agency delivering projects across New York, LA, Atlanta, London, and Paris, establishing a global footprint.</div>
+                    <div class="bullet-point" data-section="employment">Led end-to-end development of Treauu’s iOS platform and marketplace, managing the full product lifecycle from ideation to launch, connecting production professionals worldwide.</div>
+                    <div class="bullet-point" data-section="employment">Partnered with top-tier clients including Nike, Frank Ocean, Asics, Le Book, and Colgate, driving concept development and strategy for digital campaigns and experiential activations.</div>
+                    <div class="bullet-point" data-section="employment">Collaborated with cross-functional teams to create compelling pitch materials, including RFP responses and proposals, securing significant projects and client partnerships.</div>
+                </div>
+
+                <!-- S&P Capital IQ -->
+                <div class="job" data-company="s_and_p">
+                    <div class="job-title-line"><strong>Business Analyst, S&P Global, New York</strong></div>
+                    <div class="job-dates">JUNE 2014 — JANUARY 2016</div>
+                    <div class="bullet-point" data-section="employment">Led financial analysis and forecasting for a multi-million dollar PC refresh project, resulting in a projected $15 million quarterly cost reduction.</div>
+                    <div class="bullet-point" data-section="employment">Oversaw the R&D and Section 1099 Tax Credit initiative in collaboration with PricewaterhouseCoopers, engaging senior stakeholders to secure significant IRS tax credits.</div>
+                    <div class="bullet-point" data-section="employment">Analyzed and streamlined internal project management and budgeting processes, enhancing reporting accuracy and operational efficiency.</div>
+                    <div class="bullet-point" data-section="employment">Defined business requirements and coordinated with technical teams to deliver timely system updates and off-cycle releases, improving workflow continuity.</div>
+                </div>
+
+                <!-- Goldman Sachs -->
+                <div class="job" data-company="goldman_sachs">
+                    <div class="job-title-line"><strong>Analyst, Goldman Sachs, New York</strong></div>
+                    <div class="job-dates">JANUARY 2013 — JUNE 2014</div>
+                    <div class="bullet-point" data-section="employment">Partnered with Talent Acquisition, HR, and business leaders to deliver data-driven insights that optimized workforce strategy and informed executive decision-making across the Securities division.</div>
+                    <div class="bullet-point" data-section="employment">Designed and developed advanced visualizations to illuminate key workforce trends, uncovering opportunities that drove strategic initiatives within the global organization.</div>
+                    <div class="bullet-point" data-section="employment">Led root cause analyses on critical operational and talent-related issues, implementing data-backed solutions and establishing tracking mechanisms to ensure measurable, continuous improvement.</div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="education">
+                <h2 class="section-header">Education</h2>
+                <div class="degree"><strong>BSc, Saint John's University, New York City</strong></div>
+                <div class="education-dates">AUGUST 2008 — MAY 2012</div>
+                <div class="education-details">Double in Finance & Integrated Marketing</div>
+            </div>
+        </div>
+
+        <!-- Sidebar continues on page 2 -->
+        <div class="sidebar">
+            <!-- Empty sidebar to maintain background -->
+        </div>
+    </div>
+</body>
+</html>
